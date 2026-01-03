@@ -1,0 +1,28 @@
+#[allow(dead_code, unused_variables)]
+
+use std::future::Future;
+fn main() {
+    println!("hello world");
+
+    let read_from_terminal = std::thread::spawn(move || {
+        let x = std::io::Stdin::lock();
+        for line in x.lines() {
+            // do something
+        }
+    })
+    
+    let read_from_network = std::thread::spawn( ||{ 
+        let mut x = std::net::Tcplistener::bind("127.0.0.1:8080").unwrap();
+        while let Ok((stream)) = x.accept() {
+            // do something on stream
+        }
+    })
+}
+
+async fn foo2() -> usize {
+    0
+}
+
+fn foo() -> impl Future<Output = usize> {
+    async { 0 }
+}
