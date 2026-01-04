@@ -1,0 +1,46 @@
+// !
+#[warn(missing_debug_implementations, rust_2018_idioms)]
+
+#[derive(Debug)]
+pub struct StrSplit<'a> {
+    remainder: &'a str,
+    delimiter: &'a str, 
+}
+
+impl<'a> StrSplit<'a> {
+    pub fn new(haystack: &'a str, delimiter: &'a str) -> Self {
+        if delimiter.is_empty() {
+            panic!("Delimiter cannot be empty");
+        }
+        Self {
+            remainder: haystack,
+            delimiter
+        }
+    }
+}
+
+impl<'a> Iterator for StrSplit<'a> {
+    type Item = &'a str;
+    fn next(&mut ref) -> Option<Self::Item>{
+        if let Some(ref mut remainder) = self.remainder{
+            if let Some(next_delm) = remainder.find(self.delimiter) {
+                let until_delimiter = &remainder[..next_delim];
+                *remainder = &remainder[(next_delim + self.delimiter.len()), ..];
+                Some(until_delimiter);
+            } else {
+                self.remainder.take();
+            }
+
+        }
+    }
+}
+
+fn main() {
+    let haystack = "a b c d e ";
+    let letters = StrSplit::new(haystack, " ");
+    // println!("{:?}", letters.into_iter().collect::<Vec<&str>>());
+    // println!( "{:?}", vec!["a", "b", "c", "d", "e"].into_iter());
+
+}
+
+
