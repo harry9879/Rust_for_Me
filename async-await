@@ -5,16 +5,18 @@ fn main() {
     println!("hello world");
 
     let read_from_terminal = std::thread::spawn(move || {
-        let x = std::io::Stdin::lock();
+        let x = std::io::Stdin::lock(std::io::stdin());
         for line in x.lines() {
             // do something
+
         }
     })
     
-    let read_from_network = std::thread::spawn( ||{ 
+    let read_from_network = std::thread::spawn(move ||{ 
         let mut x = std::net::Tcplistener::bind("127.0.0.1:8080").unwrap();
         while let Ok((stream)) = x.accept() {
             // do something on stream
+
         }
     })
 }
@@ -24,5 +26,28 @@ async fn foo2() -> usize {
 }
 
 fn foo() -> impl Future<Output = usize> {
-    async { 0 }
+    async { 
+
+        let x = read_to_string("file").await;
+
+        let fut = read_to_string("file");
+        // let x = loop {
+        //     if let Some(result) = fut.try_check_completed() {
+        //         break result;
+        //     } else {
+        //         fut.try_make_progress();
+        //         yield,
+        //     }
+        // }
+
+       race! {
+        done <- read_to_string("file2").await => {
+            // continue; fall-through to println below
+        }
+        cancel <- cancel.await => {
+            return 0;
+        }
+       }
+        
+     }
 }
