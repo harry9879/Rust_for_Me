@@ -4,7 +4,7 @@ use tracing::{Instrument, Level, debug, error, info, info_span, instrument, span
 #[derive(Debug)]
 struct Foo {
     a: bool,
-    b: u32,
+    b: u16,
 }
 
 #[tokio::main]
